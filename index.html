@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Baby ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login Card -->
+  <div class="card" id="loginCard">
+    <h2>Heh! Thoeun 💖</h2>
+    <p>Enter the secret password to unlock your surprise!</p>
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="errorMessage" class="error">Wrong password, try again!</p>
+  </div>
+  <!-- Anniversary Box -->
+<div id="anniversaryMessage" class="hiddenAnniversary">
+  <h2>🎉 Happy 2 Years Anniversary, Beb! 💖</h2>
+  <p>Thank you for being the most amazing part of my life. I love you so much! ❤️</p>
+  <button onclick="closeAnniversary()">Close</button>
+</div>
+
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <header>
+      <h1>For My Baby</h1>
+      <p>A special place just for you</p>
+    </header>
+
+    <div id="maindiv">
+      <nav id="mainNav">
+        <ul>
+          <li onclick="showTab('love')">Love Zone</li>
+          <li onclick="showTab('music')">Music</li>
+          <li onclick="showTab('gallery')">Gallery</li>
+          <li onclick="showTab('notes')">Notes</li>
+        </ul>
+      </nav>
+    </div>
+
+   <!-- Love Zone -->
+<section id="love" class="tab active">
+  <h2>I Love you Bunthoeun 💕</h2>
+  <p>Oun slanh Bong klang jeang</p>
+
+  <!-- Anniversary -->
+ <div class="loveAnniversary">
+  <p>We fell in love on <span id="startDate">23 May, 2024</span></p>
+  <p>It has been</p>
+  <p id="daysTogether" class="daysCounter"></p> <!-- Big counter -->
+  <p>days since we are together 💖</p>
+</div>
+
+ <button onclick="toggleLoveMessage()">Click for a surprise</button>
+<div id="hiddenMessage">
+  <p><strong> 2 years anniversary, my love ❤️</strong></p>  
+
+  <p>I don’t even know where to start, because there are so many things I want to say to you. These past two years have been the most beautiful part of my life, and I’m so thankful for every single moment we’ve shared together. From the small, simple moments to the big memories, everything feels special because it’s with you.</p>  
+
+  <p>I feel so lucky to have you. Truly. You came into my life and changed it in the most gentle and loving way. You make me smile when I don’t even feel like smiling, you make me feel safe when everything feels hard, and you love me in a way that I never thought I could be loved.</p>  
+
+  <p>Thank you for your patience, your care, your kindness, and your understanding. Thank you for staying with me, supporting me, and never giving up on us. You are not just my boyfriend, you are my best friend, my comfort, and my happiness.</p>  
+
+  <p>Sometimes I just sit and think about us, and I feel so grateful. Out of everyone in the world, I got you. And that means everything to me.</p>  
+
+  <p>I really hope our future is full of love, success, and all the things we dream about. I want us to keep growing together, supporting each other, and building a life that we both want. One day, I hope we can turn all of this love into something even bigger — a beautiful life, a happy home, and a family together.</p>  
+
+  <p>No matter what happens, I promise to always stand by your side, to love you, and to choose you again and again.</p>  
+
+  <p>I love you more than words can ever explain, and I’m so excited for our future together 💕 </p>
+  <p><strong>Happy 2 years, my forever Bunthoeun 🤍</strong></p>
+  <p><strong>Your cute GF: Sreylis Norn</strong></p>
+</div>
+</section>
+
+    <!-- Music -->
+<section id="music" class="tab">
+  <h2>Songs that remind me of you 💙</h2>
+
+  <ul class="musicList">
+    <li onclick="playSong('song1')">
+      🎵 Sunshine 
+      <span onclick="stopSong(event, 'song1')">✖</span>
+    </li>
+
+    <li onclick="playSong('song2')">
+      🎵 Sneha 
+      <span onclick="stopSong(event, 'song2')">✖</span>
+    </li> 
+
+    <li onclick="playSong('song3')">
+      🎵 When you say you love me 
+      <span onclick="stopSong(event, 'song3')">✖</span>
+    </li>
+  </ul>
+
+  <audio id="song1" src="songs/ifthesun.MP4"></audio>
+  <audio id="song2" src="songs/new.MP4"></audio>
+  <audio id="song3" src="songs/whenyousay.MP4"></audio>
+</section>
+
+    <!-- Gallery -->
+ <section id="gallery" class="tab">
+  <h2>Gallery</h2>
+  <p>Our favorite memories together:</p>
+
+  <div class="gallery">
+
+    <div class="imgBox">
+      <img src="image/firstdate.JPG">
+      <p class="caption">Our first date 💖</p>
+    </div>
+
+    <div class="imgBox">
+      <img src="image/terbmuy.jpg">
+      <p class="caption">My favorite picture</p>
+    </div>
+
+    <div class="imgBox">
+      <img src="image/i.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+    <div class="imgBox">
+      <img src="image/cute.jpg">
+      <p class="caption">Our first date 💖</p>
+    </div>
+
+    <div class="imgBox">
+      <img src="image/g.jpg">
+      <p class="caption">My favorite picture</p>
+    </div>
+
+    <div class="imgBox">
+      <img src="image/hee.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+     <div class="imgBox">
+      <img src="image/h.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+    <div class="imgBox">
+      <img src="image/smile.jpg">
+      <p class="caption">Our first date 💖</p>
+    </div>
+    <div class="imgBox">
+      <img src="image/b.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+     <div class="imgBox">
+      <img src="image/a.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+    <div class="imgBox">
+      <img src="image/c.JPG">
+      <p class="caption">Our first date 💖</p>
+    </div>
+
+    <div class="imgBox">
+      <img src="image/d.jpg">
+      <p class="caption">My favorite picture</p>
+    </div>
+
+    <div class="imgBox">
+      <img src="image/e.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+    <div class="imgBox">
+      <img src="image/f.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+    <div class="imgBox">
+      <img src="image/g.jpg">
+      <p class="caption">A memory I will never forget 💕</p>
+    </div>
+  </div>
+</section>
+</section>
+
+<section id="notes" class="tab">
+  <h2>Notes 💌</h2>
+  <p>Little love letters and sweet words just for you.</p>
+  <button onclick="showNotes()">Show my notes</button>
+  <ul id="noteList"></ul>
+</section>
+
+ <!-- Popup -->
+<div id="imgPopup">
+  <span class="closeBtn" onclick="closeImgPopup()">×</span>
+  <img id="popupImg" src="" alt="Popup Image">
+</div>
+  <script src="script.js"></script>
+</body>
+</html>

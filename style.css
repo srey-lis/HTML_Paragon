@@ -1,0 +1,505 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fff7fa;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Titles */
+h2 {
+  color: #e63976;
+}
+
+/* Input */
+input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 15px;
+  width: 80%;
+  outline: none;
+}
+
+input:focus {
+  border-color: #e63976;
+}
+
+/* Button */
+button {
+  background: #e63976;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+  background: #d62863;
+  transform: scale(1.05);
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  max-width: 400px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+/* Error */
+.error {
+  color: #e63946;
+  display: none;
+}
+/* Anniversary Box */
+.hiddenAnniversary {
+  display: none;
+  position: fixed;        
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  width: 90%;
+  max-width: 400px;
+  background: linear-gradient(135deg, #fff0f5, #ffe5ec);
+  border: 2px solid #ff3c99;
+  border-radius: 25px;
+  padding: 35px 25px;
+  text-align: center;
+  color: #e63976;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 15px 40px rgba(230, 57, 118, 0.3);
+  z-index: 999;
+  overflow: hidden;
+  animation: popBounce 1s ease forwards;
+}
+
+/* Button inside anniversary */
+.hiddenAnniversary button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #e63976;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.hiddenAnniversary button:hover {
+  background: #ff3c99;
+  transform: scale(1.1);
+}
+
+/* Pop + bounce animation */
+@keyframes popBounce {
+  0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+  60% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+  80% { transform: translate(-50%, -50%) scale(0.95); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Floating hearts inside box */
+.hiddenAnniversary::before,
+.hiddenAnniversary::after {
+  content: "❤️";
+  position: absolute;
+  font-size: 25px;
+  opacity: 0.7;
+  animation: floatHeartAnniversary 4s linear infinite;
+}
+
+.hiddenAnniversary::after {
+  left: 70%;
+  top: 30%;
+  font-size: 20px;
+  animation-delay: 2s;
+}
+
+/* Heart floating animation */
+@keyframes floatHeartAnniversary {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-40px) scale(1); opacity: 0; }
+}
+/* Dashboard */
+.dashboard {
+  display: none;
+  width: 100%;
+  text-align: center;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #e63976, #ff8fab);
+  color: white;
+  padding: 20px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+/* Navbar */
+#mainNav {
+  background: #ffe5ec;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin: 20px;
+}
+
+#mainNav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#mainNav li {
+  color: #7a1c3a;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+#mainNav li:hover {
+  background: #e63976;
+  color: #fff;
+}
+
+/* Tabs */
+.tab {
+  display: none;
+  padding: 20px;
+}
+
+.tab.active {
+  display: block;
+}
+
+/* Hidden Love Message */
+#hiddenMessage {
+  display: none; /* initially hidden */
+  background: linear-gradient(135deg, #fff0f5, #ffe5ec); /* soft romantic gradient */
+  border: 2px solid #ff8fc1;
+  border-radius: 20px;
+  padding: 30px 25px;
+  margin-top: 20px;
+  color: #e63976;
+  font-size: 16px;
+  line-height: 1.7;  /* makes text airy and easy to read */
+  font-weight: 500;
+  text-align: justify; /* makes it look like a letter */
+  box-shadow: 0 8px 25px rgba(230, 57, 118, 0.2);
+  max-height: 400px; /* limit height */
+  overflow-y: auto;  /* scroll if text is long */
+  animation: fadeIn 1s ease forwards;
+}
+
+/* Optional scroll style */
+#hiddenMessage::-webkit-scrollbar {
+  width: 6px;
+}
+
+#hiddenMessage::-webkit-scrollbar-thumb {
+  background: #ff3c99;
+  border-radius: 3px;
+}
+
+/* Love Anniversary */
+.loveAnniversary {
+  margin: 20px 0;
+  background: linear-gradient(145deg, #ffe5ec, #ffd6e0);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(230, 57, 118, 0.15);
+  font-size: 18px;
+  font-weight: 500;
+  color: #e63976;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating hearts in Love Anniversary */
+.loveAnniversary::before,
+.loveAnniversary::after {
+  content: '❤️';
+  position: absolute;
+  font-size: 25px;
+  animation: floatHeart 4s linear infinite;
+  opacity: 0.7;
+}
+
+.loveAnniversary::after {
+  left: 60%;
+  top: 20%;
+  font-size: 20px;
+  animation-delay: 2s;
+}
+/* Make the counter super big and cute */
+.daysCounter {
+  font-size: 48px;         /* very big */
+  font-weight: 700;        /* bold */
+  color: #ff3c99;          /* bright pink */
+  text-shadow: 0 3px 10px rgba(230, 57, 118, 0.4); /* subtle glow */
+  margin: 10px 0;
+  animation: popIn 1s ease forwards; /* optional animation */
+}
+
+/* Optional animation to make it pop */
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Buttons */
+.loveAnniversary button,
+button {
+  background: #e63976;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  margin-top: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.loveAnniversary button:hover,
+button:hover {
+  background: #ff3c99;
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes floatHeart {
+  0% { transform: translateY(0) scale(1);}
+  50% { transform: translateY(-15px) scale(1.2);}
+  100% { transform: translateY(-30px) scale(1);}
+}
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.imgBox {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s;
+}
+
+.imgBox:hover {
+  transform: translateY(-5px);
+}
+
+.imgBox img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Caption text */
+.caption {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #e63976;
+}
+/* Popup */
+/* Popup overlay */
+#imgPopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 999;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto; /* allow scroll if image is big */
+}
+
+/* Popup image */
+#imgPopup img {
+  max-width: 90%;
+  max-height: 80vh; /* scale height to viewport */
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s;
+}
+
+/* Close button */
+#imgPopup .closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1000;
+  user-select: none;
+}
+#imgPopup .closeBtn:hover {
+  color: #ff3c99;
+}
+
+/* Optional: hover scale image */
+#imgPopup img:hover {
+  transform: scale(1.02);
+}
+
+.musicList {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ⭐ THIS centers everything */
+  padding: 0;
+}
+
+.musicList li {
+  background: #ffe5ec;
+  margin: 10px 0;
+  padding: 12px 15px;
+  border-radius: 12px;
+  width: 500px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, background 0.3s;
+}
+
+.musicList li:hover {
+  background: #ffd6e0;
+  transform: scale(1.05);
+}
+
+/* Stop button (X) */
+.musicList span {
+  background: #e63976;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.musicList span:hover {
+  background: #c9184a;
+}
+
+/* Notes */
+#noteList {
+  list-style: none;
+  padding: 0;
+}
+
+#noteList li {
+  background: #ffe5ec;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Music */
+#music ul li {
+  cursor: pointer;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 6px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#music ul li:hover {
+  background: #ffe5ec;
+  color: #e63976;
+  transform: scale(1.03);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 💖 HEARTS */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  pointer-events: none;
+  animation: floatUp ease-in forwards;
+  opacity: 0.9;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-300px) scale(1) rotate(15deg);
+  }
+
+  100% {
+    transform: translateY(-700px) scale(1.3) rotate(-15deg);
+    opacity: 0;
+  }
+}
