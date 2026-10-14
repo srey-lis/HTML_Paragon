@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>For My Baby ❤️ | Thoeun & Sreylis</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti for Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            cursive: ['Dancing Script', 'cursive'],
+          },
+          colors: {
+            rose: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c',
+            }
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
+            'pulse-slow': 'pulse 3s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-15px) rotate(5deg)' },
+            },
+            shake: {
+              '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+              '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+              '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+              '40%, 60%': { transform: 'translate3d(6px, 0, 0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Safe Area & Glassmorphism Utilities */
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 50%, #ffd6e0 100%);
+      min-height: 100vh;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Floating Hearts Overlay Canvas */
+    #hearts-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Custom Scrollbar for tab containers */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-slate-800 antialiased relative overflow-x-hidden min-h-screen flex flex-col justify-between">
+
+  <!-- Background Animated Hearts Canvas -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- ==================== LOGIN CARD ==================== -->
+  <div id="loginCard" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 transition-all duration-500 bg-rose-900/30 backdrop-blur-md">
+    <div class="glass-card w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl text-center relative overflow-hidden transform transition-all border border-white/80">
+      
+      <!-- Decorative Hearts Background in Card -->
+      <div class="absolute -top-10 -right-10 text-rose-200/50 text-8xl pointer-events-none">
+        <i class="fa-solid fa-heart"></i>
+      </div>
+      <div class="absolute -bottom-10 -left-10 text-rose-200/50 text-8xl pointer-events-none">
+        <i class="fa-solid fa-heart"></i>
+      </div>
+
+      <div class="relative z-10">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-rose-100 rounded-full text-rose-500 mb-4 shadow-inner animate-bounce">
+          <i class="fa-solid fa-lock text-3xl"></i>
+        </div>
+
+        <h2 class="font-cursive text-4xl sm:text-5xl font-bold text-rose-600 mb-2">Heh! Thoeun 💖</h2>
+        <p class="text-slate-600 text-sm sm:text-base mb-6 font-medium">Enter the secret password to unlock your surprise!</p>
+
+        <div class="space-y-4">
+          <div class="relative">
+            <input type="password" id="passwordInput" placeholder="Enter password (e.g., love or 2024)" 
+              class="w-full px-5 py-3.5 text-center bg-white/90 border-2 border-rose-200 rounded-2xl text-slate-800 text-lg font-semibold focus:outline-none focus:border-rose-400 focus:ring-4 focus:ring-rose-100 transition-all placeholder:text-slate-400 placeholder:text-sm placeholder:font-normal shadow-sm"
+              onkeypress="handleKeyPress(event)">
+          </div>
+
+          <button onclick="checkPassword()" 
+            class="w-full py-3.5 px-6 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold rounded-2xl shadow-lg shadow-rose-500/30 transform active:scale-95 transition-all text-base flex items-center justify-center gap-2">
+            <i class="fa-solid fa-key"></i>
+            Unlock Surprise
+          </button>
+
+          <p id="errorMessage" class="hidden text-rose-600 text-sm font-semibold bg-rose-50 py-2 px-4 rounded-xl border border-rose-200 animate-shake">
+            <i class="fa-solid fa-circle-exclamation mr-1"></i> Wrong password, try again! (Hint: love)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ANNIVERSARY CELEBRATION MODAL ==================== -->
+  <div id="anniversaryMessage" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md transition-all duration-300">
+    <div class="glass-card max-w-lg w-full p-6 sm:p-8 rounded-3xl text-center shadow-2xl border-2 border-rose-300 relative animate-float">
+      <div class="text-5xl sm:text-6xl mb-4 animate-pulse">🎉💖</div>
+      <h2 class="font-cursive text-3xl sm:text-4xl font-bold text-rose-600 mb-3">
+        Happy 2 Years Anniversary, Beb! 💖
+      </h2>
+      <p class="text-slate-700 text-base sm:text-lg leading-relaxed mb-6 font-medium">
+        Thank you for being the most amazing part of my life. I love you so much! ❤️
+      </p>
+      <button onclick="closeAnniversary()" 
+        class="px-8 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-full shadow-md shadow-rose-400/40 active:scale-95 transition-all">
+        Close & Explore 💕
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN DASHBOARD ==================== -->
+  <div id="dashboard" class="hidden relative z-10 min-h-screen flex flex-col justify-between max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+    
+    <!-- HEADER -->
+    <header class="text-center my-2 sm:my-4">
+      <div class="inline-block relative">
+        <h1 class="font-cursive text-5xl sm:text-6xl md:text-7xl font-bold text-rose-600 drop-shadow-sm">
+          For My Baby
+        </h1>
+        <span class="absolute -right-6 top-0 text-xl text-rose-400 animate-pulse">✨</span>
+      </div>
+      <p class="text-slate-600 font-medium text-sm sm:text-base mt-1">A special romantic space created just for you</p>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <div id="maindiv" class="sticky top-2 z-30 my-4">
+      <nav id="mainNav" class="glass-nav rounded-2xl p-1.5 shadow-lg border border-white/60">
+        <ul class="flex items-center justify-around md:justify-center md:gap-4 overflow-x-auto no-scrollbar">
+          <li>
+            <button id="nav-love" onclick="showTab('love')" class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all text-rose-600 bg-rose-100 shadow-sm">
+              <i class="fa-solid fa-heart text-rose-500"></i>
+              <span>Love Zone</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-music" onclick="showTab('music')" class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all text-slate-600 hover:text-rose-500">
+              <i class="fa-solid fa-music text-pink-500"></i>
+              <span>Music</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-gallery" onclick="showTab('gallery')" class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all text-slate-600 hover:text-rose-500">
+              <i class="fa-solid fa-images text-purple-500"></i>
+              <span>Gallery</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-notes" onclick="showTab('notes')" class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all text-slate-600 hover:text-rose-500">
+              <i class="fa-solid fa-envelope-open-text text-amber-500"></i>
+              <span>Notes</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 my-2">
+
+      <!-- ==================== TAB 1: LOVE ZONE ==================== -->
+      <section id="love" class="tab-content transition-all duration-300">
+        <div class="glass-card rounded-3xl p-5 sm:p-8 shadow-xl text-center space-y-6">
+          
+          <div>
+            <h2 class="font-cursive text-4xl sm:text-5xl font-bold text-rose-600">I Love you Bunthoeun 💕</h2>
+            <p class="text-rose-500 font-semibold text-lg sm:text-xl italic mt-1">Oun slanh Bong klang jeang</p>
+          </div>
+
+          <!-- Counter Box -->
+          <div class="loveAnniversary bg-gradient-to-br from-rose-500 to-pink-500 text-white rounded-2xl p-6 shadow-lg shadow-rose-500/20 max-w-md mx-auto transform hover:scale-[1.02] transition-transform">
+            <p class="text-rose-100 font-medium text-sm sm:text-base">We fell in love on</p>
+            <p class="text-xl font-bold text-white mb-2"><span id="startDate">23 May, 2024</span></p>
+            
+            <div class="my-3 py-2 border-y border-rose-300/40">
+              <p class="text-xs uppercase tracking-widest text-rose-100">It has been</p>
+              <p id="daysTogether" class="daysCounter text-5xl sm:text-6xl font-black my-1 text-white drop-shadow">0</p>
+              <p class="text-sm font-semibold text-rose-100">days since we are together 💖</p>
+            </div>
+          </div>
+
+          <!-- Surprise Toggle Button -->
+          <div>
+            <button onclick="toggleLoveMessage()" class="px-6 py-3.5 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl shadow-md shadow-rose-400/30 transition-all flex items-center gap-2 mx-auto active:scale-95">
+              <i class="fa-solid fa-gift text-lg"></i>
+              <span>Click for a surprise</span>
+            </button>
+          </div>
+
+          <!-- Hidden Romantic Letter -->
+          <div id="hiddenMessage" class="hidden text-left bg-white/80 p-5 sm:p-8 rounded-2xl shadow-inner space-y-4 border border-rose-100 max-w-2xl mx-auto leading-relaxed text-slate-700 text-sm sm:text-base">
+            <p class="text-center font-bold text-rose-600 text-lg sm:text-xl border-b border-rose-200 pb-2">
+              2 years anniversary, my love ❤️
+            </p>  
+
+            <p>I don’t even know where to start, because there are so many things I want to say to you. These past two years have been the most beautiful part of my life, and I’m so thankful for every single moment we’ve shared together. From the small, simple moments to the big memories, everything feels special because it’s with you.</p>  
+
+            <p>I feel so lucky to have you. Truly. You came into my life and changed it in the most gentle and loving way. You make me smile when I don’t even feel like smiling, you make me feel safe when everything feels hard, and you love me in a way that I never thought I could be loved.</p>  
+
+            <p>Thank you for your patience, your care, your kindness, and your understanding. Thank you for staying with me, supporting me, and never giving up on us. You are not just my boyfriend, you are my best friend, my comfort, and my happiness.</p>  
+
+            <p>Sometimes I just sit and think about us, and I feel so grateful. Out of everyone in the world, I got you. And that means everything to me.</p>  
+
+            <p>I really hope our future is full of love, success, and all the things we dream about. I want us to keep growing together, supporting each other, and building a life that we both want. One day, I hope we can turn all of this love into something even bigger — a beautiful life, a happy home, and a family together.</p>  
+
+            <p>No matter what happens, I promise to always stand by your side, to love you, and to choose you again and again.</p>  
+
+            <p>I love you more than words can ever explain, and I’m so excited for our future together 💕</p>
+            
+            <div class="pt-4 border-t border-rose-200 text-right font-medium">
+              <p class="font-bold text-rose-600">Happy 2 years, my forever Bunthoeun 🤍</p>
+              <p class="text-rose-500 font-cursive text-2xl mt-1">Your cute GF: Sreylis Norn</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: MUSIC ==================== -->
+      <section id="music" class="tab-content hidden transition-all duration-300">
+        <div class="glass-card rounded-3xl p-5 sm:p-8 shadow-xl max-w-2xl mx-auto space-y-6">
+          <div class="text-center">
+            <h2 class="font-cursive text-4xl sm:text-5xl font-bold text-rose-600">Songs that remind me of you 💙</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-1">Play our favorite tracks below</p>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Song 1 -->
+            <div id="songCard-song1" class="musicCard p-4 rounded-2xl bg-white/90 border border-rose-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-500 flex items-center justify-center text-xl shrink-0">
+                  🎵
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-800 text-base">Sunshine</h3>
+                  <p class="text-xs text-slate-500">Special Melodies</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                <button onclick="playSong('song1')" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-medium text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+                  <i class="fa-solid fa-play"></i> Play
+                </button>
+                <button onclick="stopSong(event, 'song1')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-medium text-xs active:scale-95 transition-all">
+                  <i class="fa-solid fa-square"></i> Stop
+                </button>
+              </div>
+            </div>
+
+            <!-- Song 2 -->
+            <div id="songCard-song2" class="musicCard p-4 rounded-2xl bg-white/90 border border-rose-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-pink-100 text-pink-500 flex items-center justify-center text-xl shrink-0">
+                  🎵
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-800 text-base">Sneha</h3>
+                  <p class="text-xs text-slate-500">Sweet Memories</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                <button onclick="playSong('song2')" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-medium text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+                  <i class="fa-solid fa-play"></i> Play
+                </button>
+                <button onclick="stopSong(event, 'song2')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-medium text-xs active:scale-95 transition-all">
+                  <i class="fa-solid fa-square"></i> Stop
+                </button>
+              </div>
+            </div>
+
+            <!-- Song 3 -->
+            <div id="songCard-song3" class="musicCard p-4 rounded-2xl bg-white/90 border border-rose-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-500 flex items-center justify-center text-xl shrink-0">
+                  🎵
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-800 text-base">When you say you love me</h3>
+                  <p class="text-xs text-slate-500">Romantic Anthem</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                <button onclick="playSong('song3')" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-medium text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+                  <i class="fa-solid fa-play"></i> Play
+                </button>
+                <button onclick="stopSong(event, 'song3')" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-medium text-xs active:scale-95 transition-all">
+                  <i class="fa-solid fa-square"></i> Stop
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audio Elements with fallbacks -->
+          <audio id="song1" src="songs/ifthesun.MP4" preload="none" onerror="handleAudioError(this)"></audio>
+          <audio id="song2" src="songs/new.MP4" preload="none" onerror="handleAudioError(this)"></audio>
+          <audio id="song3" src="songs/whenyousay.MP4" preload="none" onerror="handleAudioError(this)"></audio>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: GALLERY ==================== -->
+      <section id="gallery" class="tab-content hidden transition-all duration-300">
+        <div class="glass-card rounded-3xl p-5 sm:p-8 shadow-xl space-y-6">
+          <div class="text-center">
+            <h2 class="font-cursive text-4xl sm:text-5xl font-bold text-rose-600">Gallery</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-1">Our favorite memories together:</p>
+          </div>
+
+          <!-- Responsive Image Grid (1 col phone, 2-3 col tablet, 3-4 col iPad Pro) -->
+          <div class="gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+            <!-- Photo Cards with Placeholders -->
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="firstdate.JPG" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Our+First+Date+💖'" alt="Our first date" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">Our first date 💖</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="terbmuy.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Favorite+Picture+💕'" alt="My favorite picture" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">My favorite picture</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="i.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Unforgettable+Memory+💕'" alt="Unforgettable memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">A memory I will never forget 💕</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="cute.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Cute+Moments+💖'" alt="Cute moments" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">Our first date 💖</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="g.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Sweet+Snap+✨'" alt="Sweet snap" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">My favorite picture</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="hee.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Special+Times+❤️'" alt="Special times" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">A memory I will never forget 💕</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="h.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Precious+Days+🌟'" alt="Precious days" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">A memory I will never forget 💕</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="smile.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Your+Beautiful+Smile+😊'" alt="Smile" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">Our first date 💖</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="b.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Sweet+Romance+🌹'" alt="Romance" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">A memory I will never forget 💕</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="a.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Together+Forever+💖'" alt="Together" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">A memory I will never forget 💕</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="c.JPG" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Lovely+Outing+🌷'" alt="Outing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">Our first date 💖</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="d.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Always+Together+💌'" alt="Always together" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">My favorite picture</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="e.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=My+Happiness+💖'" alt="Happiness" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">A memory I will never forget 💕</p>
+              </div>
+            </div>
+
+            <div class="imgBox group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all cursor-pointer border border-rose-100" onclick="openImgPopup(this)">
+              <div class="aspect-square bg-rose-50 overflow-hidden relative">
+                <img src="f.jpg" onerror="this.src='https://placehold.co/600x600/ffe4e6/be123c?text=Forever+Love+💞'" alt="Forever Love" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-3 bg-white/90 text-center">
+                <p class="caption text-xs sm:text-sm font-semibold text-rose-600">A memory I will never forget 💕</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 4: NOTES ==================== -->
+      <section id="notes" class="tab-content hidden transition-all duration-300">
+        <div class="glass-card rounded-3xl p-5 sm:p-8 shadow-xl max-w-2xl mx-auto space-y-6">
+          <div class="text-center">
+            <h2 class="font-cursive text-4xl sm:text-5xl font-bold text-rose-600">Notes 💌</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-1">Little love letters and sweet words just for you.</p>
+          </div>
+
+          <div class="text-center">
+            <button onclick="showNotes()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl shadow-md shadow-rose-400/30 active:scale-95 transition-all flex items-center gap-2 mx-auto">
+              <i class="fa-solid fa-envelope"></i>
+              <span>Show my notes</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Love Notes List -->
+          <ul id="noteList" class="space-y-3"></ul>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-4 text-xs sm:text-sm text-slate-500 font-medium">
+      Created with ❤️ by <span class="text-rose-600 font-bold">Sreylis Norn</span> for <span class="text-rose-600 font-bold">Bunthoeun</span>
+    </footer>
+
+  </div>
+
+  <!-- ==================== LIGHTBOX POPUP ==================== -->
+  <div id="imgPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md transition-all duration-300" onclick="closeImgPopup()">
+    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center" onclick="event.stopPropagation()">
+      <button class="closeBtn absolute -top-12 right-0 text-white text-3xl font-bold hover:text-rose-300 transition-colors" onclick="closeImgPopup()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img id="popupImg" src="" alt="Popup Image" class="max-h-[80vh] w-auto max-w-full rounded-2xl shadow-2xl object-contain border-2 border-white/20">
+      <p id="popupCaption" class="text-white text-center mt-3 font-semibold text-base sm:text-lg drop-shadow"></p>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // --- 1. Dynamic Days Calculation ---
+    function calculateDaysTogether() {
+      const startDate = new Date('2024-05-23T00:00:00');
+      const currentDate = new Date();
+      const diffTime = Math.abs(currentDate - startDate);
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      
+      const counterEl = document.getElementById('daysTogether');
+      if (counterEl) {
+        counterEl.innerText = diffDays;
+      }
+    }
+
+    // --- 2. Password Check Logic ---
+    function checkPassword() {
+      const input = document.getElementById('passwordInput').value.trim().toLowerCase();
+      const errorMsg = document.getElementById('errorMessage');
+      const loginCard = document.getElementById('loginCard');
+      const dashboard = document.getElementById('dashboard');
+
+      // Allowed passwords: love, 2024, or thoun/thoeun
+      if (input === 'love' || input === '2305' || input === 'thoeunlis' || input === 'tl') {
+        loginCard.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          loginCard.style.display = 'none';
+          dashboard.classList.remove('hidden');
+          
+          // Trigger confetti celebration on unlock
+          triggerConfetti();
+          
+          // Show anniversary message popup
+          const annivModal = document.getElementById('anniversaryMessage');
+          annivModal.classList.remove('hidden');
+        }, 400);
+      } else {
+        errorMsg.classList.remove('hidden');
+        const cardBox = loginCard.querySelector('.glass-card');
+        cardBox.classList.add('animate-shake');
+        setTimeout(() => {
+          cardBox.classList.remove('animate-shake');
+        }, 500);
+      }
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        checkPassword();
+      }
+    }
+
+    function closeAnniversary() {
+      const annivModal = document.getElementById('anniversaryMessage');
+      annivModal.classList.add('opacity-0');
+      setTimeout(() => {
+        annivModal.classList.add('hidden');
+        annivModal.classList.remove('opacity-0');
+      }, 300);
+    }
+
+    // --- 3. Tab Switching Logic ---
+    function showTab(tabId) {
+      // Hide all contents
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.add('hidden'));
+
+      // Remove active states from nav buttons
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('text-rose-600', 'bg-rose-100', 'shadow-sm');
+        btn.classList.add('text-slate-600');
+      });
+
+      // Show selected content
+      const targetContent = document.getElementById(tabId);
+      if (targetContent) {
+        targetContent.classList.remove('hidden');
+      }
+
+      // Highlight active nav button
+      const activeBtn = document.getElementById(`nav-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-600');
+        activeBtn.classList.add('text-rose-600', 'bg-rose-100', 'shadow-sm');
+      }
+    }
+
+    // --- 4. Love Message Surprise Toggle ---
+    function toggleLoveMessage() {
+      const msg = document.getElementById('hiddenMessage');
+      if (msg.classList.contains('hidden')) {
+        msg.classList.remove('hidden');
+        msg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        triggerConfetti();
+      } else {
+        msg.classList.add('hidden');
+      }
+    }
+
+    // --- 5. Music Player Handling ---
+    let currentPlaying = null;
+
+    function playSong(songId) {
+      const audio = document.getElementById(songId);
+      if (!audio) return;
+
+      // Stop current song if different
+      if (currentPlaying && currentPlaying !== audio) {
+        currentPlaying.pause();
+        currentPlaying.currentTime = 0;
+      }
+
+      audio.play().then(() => {
+        currentPlaying = audio;
+        updateMusicUI(songId, true);
+      }).catch(err => {
+        alert("Audio playback simulation: File missing or restricted by browser policy.");
+      });
+    }
+
+    function stopSong(e, songId) {
+      if (e) e.stopPropagation();
+      const audio = document.getElementById(songId);
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+        updateMusicUI(songId, false);
+      }
+    }
+
+    function updateMusicUI(songId, isPlaying) {
+      const card = document.getElementById(`songCard-${songId}`);
+      if (!card) return;
+      if (isPlaying) {
+        card.classList.add('ring-2', 'ring-rose-400', 'bg-rose-50/50');
+      } else {
+        card.classList.remove('ring-2', 'ring-rose-400', 'bg-rose-50/50');
+      }
+    }
+
+    function handleAudioError(el) {
+      console.warn("Audio file standard placeholder notice.");
+    }
+
+    // --- 6. Gallery Lightbox Popup ---
+    function openImgPopup(cardElement) {
+      const img = cardElement.querySelector('img');
+      const caption = cardElement.querySelector('.caption');
+      const popup = document.getElementById('imgPopup');
+      const popupImg = document.getElementById('popupImg');
+      const popupCap = document.getElementById('popupCaption');
+
+      if (img && popup) {
+        popupImg.src = img.src;
+        popupCap.innerText = caption ? caption.innerText : '';
+        popup.classList.remove('hidden');
+      }
+    }
+
+    function closeImgPopup() {
+      const popup = document.getElementById('imgPopup');
+      if (popup) {
+        popup.classList.add('hidden');
+      }
+    }
+
+    // --- 7. Love Notes Dynamic List ---
+    const romanticNotes = [
+      "You make my world brighter every single day 💕",
+      "Thank you for being my constant comfort and joy ✨",
+      "I choose you today, tomorrow, and forever ❤️",
+      "Your smile is my favorite view in the universe 🌟",
+      "Every moment spent with you is a moment I treasure 💖",
+      "You are the best decision I ever made 🤍"
+    ];
+
+    function showNotes() {
+      const list = document.getElementById('noteList');
+      list.innerHTML = '';
+      
+      romanticNotes.forEach((note, index) => {
+        setTimeout(() => {
+          const li = document.createElement('li');
+          li.className = 'p-4 bg-white/90 rounded-2xl border border-rose-100 shadow-sm text-slate-700 font-medium flex items-center gap-3 transform translate-y-2 opacity-0 transition-all duration-300';
+          li.innerHTML = `<span class="text-rose-500 text-lg"><i class="fa-solid fa-heart"></i></span> <span>${note}</span>`;
+          list.appendChild(li);
+
+          // Animate in
+          setTimeout(() => {
+            li.classList.remove('translate-y-2', 'opacity-0');
+          }, 50);
+        }, index * 150);
+      });
+    }
+
+    // --- 8. Confetti Generator ---
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#f43f5e', '#fb7185', '#fda4af', '#ffffff']
+        });
+      }
+    }
+
+    // --- 9. Floating Hearts Canvas Background ---
+    function initHeartsCanvas() {
+      const canvas = document.getElementById('hearts-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const hearts = Array.from({ length: 25 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 12 + 8,
+        speedY: Math.random() * 0.8 + 0.3,
+        speedX: Math.random() * 0.4 - 0.2,
+        opacity: Math.random() * 0.5 + 0.2
+      }));
+
+      function drawHeart(x, y, size, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath();
+        const topCurveHeight = size * 0.3;
+        ctx.moveTo(x, y + topCurveHeight);
+        ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + topCurveHeight);
+        ctx.bezierCurveTo(x - size / 2, y + (size + topCurveHeight) / 2, x, y + size, x, y + size);
+        ctx.bezierCurveTo(x, y + size, x + size / 2, y + (size + topCurveHeight) / 2, x + size / 2, y + topCurveHeight);
+        ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + topCurveHeight);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        hearts.forEach(h => {
+          h.y -= h.speedY;
+          h.x += h.speedX;
+          if (h.y < -20) {
+            h.y = height + 20;
+            h.x = Math.random() * width;
+          }
+          drawHeart(h.x, h.y, h.size, h.opacity);
+        });
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+
+    // Initialize on Load
+    window.onload = function() {
+      calculateDaysTogether();
+      initHeartsCanvas();
+    };
+  </script>
+</body>
+</html>
